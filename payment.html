@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Apex Furnitures</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #3498db;
+        }
+
+        /* Main Container */
+        .payment-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            flex: 1;
+        }
+
+        .payment-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: #f8f9fa;
+            padding: 2rem;
+        }
+
+        .order-summary h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .product-details {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .price-breakdown {
+            margin-top: 1.5rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .price-row.total {
+            border-bottom: none;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-top: 0.5rem;
+        }
+
+        /* Payment Form */
+        .payment-form {
+            padding: 2rem;
+        }
+
+        .payment-form h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .card-details {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-method {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .payment-method:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .payment-method.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .payment-method-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .security-note {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .security-note::before {
+            content: "🔒 ";
+        }
+
+        @media (max-width: 768px) {
+            .payment-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .card-details {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-methods {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">Apex Furnitures</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="payment-container">
+        <div class="payment-wrapper">
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+                <div class="product-details">
+                    <div class="product-name" id="productName">Loading...</div>
+                    <div class="product-price" id="productPrice">₹0</div>
+                </div>
+
+                <div class="price-breakdown">
+                    <div class="price-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">₹0</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Delivery Charges</span>
+                        <span id="delivery">₹999</span>
+                    </div>
+                    <div class="price-row">
+                        <span>GST (18%)</span>
+                        <span id="gst">₹0</span>
+                    </div>
+                    <div class="price-row total">
+                        <span>Total Amount</span>
+                        <span id="total">₹0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Form -->
+            <div class="payment-form">
+                <h2>Payment Details</h2>
+                
+                <div class="payment-methods">
+                    <div class="payment-method active" onclick="selectPaymentMethod('card')">
+                        <div class="payment-method-icon">💳</div>
+                        <div>Card</div>
+                    </div>
+                    <div class="payment-method" onclick="selectPaymentMethod('upi')">
+                        <div class="payment-method-icon">📱</div>
+                        <div>UPI</div>
+                    </div>
+                </div>
+
+                <form id="paymentForm" onsubmit="processPayment(event)">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required placeholder="your.email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" required placeholder="+91 XXXXX XXXXX" pattern="[0-9]{10}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Delivery Address</label>
+                        <input type="text" id="address" required placeholder="Enter complete delivery address">
+                    </div>
+
+                    <div id="cardFields">
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+
+                        <div class="card-details">
+                            <div class="form-group">
+                                <label for="expiry">Expiry Date</label>
+                                <input type="text" id="expiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="upiFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="upiId">UPI ID</label>
+                            <input type="text" id="upiId" placeholder="yourname@upi">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Complete Payment</button>
+                    
+                    <div class="security-note">
+                        Your payment information is secure and encrypted
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPaymentMethod = 'card';
+
+        // Load product details
+        window.onload = function() {
+            const productData = JSON.parse(localStorage.getItem('selectedProduct'));
+            
+            if (productData) {
+                document.getElementById('productName').textContent = productData.name;
+                document.getElementById('productPrice').textContent = '₹' + productData.price.toLocaleString();
+                
+                const subtotal = productData.price;
+                const delivery = 999;
+                const gst = Math.round(subtotal * 0.18);
+                const total = subtotal + delivery + gst;
+
+                document.getElementById('subtotal').textContent = '₹' + subtotal.toLocaleString();
+                document.getElementById('delivery').textContent = '₹' + delivery.toLocaleString();
+                document.getElementById('gst').textContent = '₹' + gst.toLocaleString();
+                document.getElementById('total').textContent = '₹' + total.toLocaleString();
+
+                // Store total for thank you page
+                localStorage.setItem('orderTotal', total);
+            } else {
+                alert('No product selected. Redirecting to products page...');
+                window.location.href = 'products.html';
+            }
+        };
+
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            
+            // Update active state
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('active');
+            });
+            event.target.closest('.payment-method').classList.add('active');
+
+            // Show/hide relevant fields
+            if (method === 'card') {
+                document.getElementById('cardFields').style.display = 'block';
+                document.getElementById('upiFields').style.display = 'none';
+                document.getElementById('cardNumber').required = true;
+                document.getElementById('expiry').required = true;
+                document.getElementById('cvv').required = true;
+                document.getElementById('upiId').required = false;
+            } else {
+                document.getElementById('cardFields').style.display = 'none';
+                document.getElementById('upiFields').style.display = 'block';
+                document.getElementById('cardNumber').required = false;
+                document.getElementById('expiry').required = false;
+                document.getElementById('cvv').required = false;
+                document.getElementById('upiId').required = true;
+            }
+        }
+
+        function processPayment(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const customerData = {
+                name: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                paymentMethod: selectedPaymentMethod
+            };
+
+            // Store customer data
+            localStorage.setItem('customerData', JSON.stringify(customerData));
+
+            // Simulate payment processing
+            const submitBtn = event.target.querySelector('.submit-btn');
+            submitBtn.textContent = 'Processing Payment...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                // Generate order ID
+                const orderId = 'APX' + Date.now().toString().slice(-8);
+                localStorage.setItem('orderId', orderId);
+                
+                // Redirect to thank you page
+                window.location.href = 'thankyou.html';
+            }, 2000);
+        }
+
+        // Format card number input
+        document.getElementById('cardNumber')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        });
+
+        // Format expiry date
+        document.getElementById('expiry')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>
