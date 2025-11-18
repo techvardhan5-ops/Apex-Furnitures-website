@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Products - Apex Furnishings</title>
+  <style>
+    /* Keep styles consistent with index.html theme */
+    :root{
+      --dark:#16213e;
+      --accent1:#f39c12; /* orange */
+      --accent2:#e74c3c; /* red */
+      --bg:#f8f9fa;
+      --card:#ffffff;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background:var(--bg);color:#222}
+    header{background:linear-gradient(135deg,#1a1a2e 0%,var(--dark) 100%);color:#fff;padding:1rem 0;position:sticky;top:0;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+    nav{max-width:1200px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+    .logo{font-weight:700;font-size:1.2rem;background:linear-gradient(45deg,var(--accent1),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    nav ul{display:flex;gap:1rem;list-style:none}
+    nav a{color:white;text-decoration:none;font-weight:600}
+    nav a:hover{color:var(--accent1)}
+    .mobile-menu-btn{display:none}
+    main{max-width:1200px;margin:2.5rem auto;padding:0 1.5rem}
+    h1{font-size:2rem;color:var(--dark);margin-bottom:0.5rem}
+    .intro{margin-bottom:1.5rem;color:#444}
+    /* product grid */
+    .product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+    .product-card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 8px 24px rgba(16,24,40,0.06);overflow:hidden;transition:transform .22s,box-shadow .22s}
+    .product-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(16,24,40,0.12)}
+    .product-media{height:160px;border-radius:10px;overflow:hidden;margin-bottom:12px;background:linear-gradient(135deg,#e9eefc 0%,#f7eefb 100%);display:flex;align-items:center;justify-content:center;font-size:2.2rem}
+    .product-media img{width:100%;height:100%;object-fit:cover;display:block}
+    .product-title{font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:6px}
+    .product-desc{font-size:0.95rem;color:#555;margin-bottom:10px}
+    .price{font-weight:800;color:var(--accent2);margin-bottom:10px}
+    .btn-row{display:flex;gap:.75rem;flex-wrap:wrap}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(45deg,var(--accent1),var(--accent2));color:white}
+    .btn.ghost{background:transparent;border:2px solid var(--dark);color:var(--dark)}
+    /* small helpers */
+    .filters{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0 1.5rem 0}
+    .filter-btn{background:white;border-radius:8px;padding:8px 12px;border:1px solid #e6e6e6;cursor:pointer;font-weight:600}
+    .filter-btn.active{box-shadow:0 6px 18px rgba(20,20,40,0.06);border-color:var(--accent1)}
+    .search{width:100%;max-width:480px;padding:10px 12px;border-radius:10px;border:1px solid #ddd;margin-bottom:12px}
+    footer{margin:3rem 0 2rem;color:#666;text-align:center}
+    @media (max-width:768px){.mobile-menu-btn{display:block}.nav-right{display:none}}
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <div class="logo">APEX FURNISHINGS</div>
+      <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+      <ul id="menu" aria-hidden="false">
+        <li><a href="index.html#home">Home</a></li>
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="products.html" style="text-decoration:underline">Products</a></li>
+        <li><a href="index.html#testimonials">Reviews</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Products — Apex Furnishings</h1>
+    <p class="intro">Explore our curated product categories. Click **View Details** on any product for quick information or **Contact Us** to place an order.</p>
+
+    <input id="searchInput" class="search" placeholder="Search products, e.g. sofa, dining table..." oninput="searchProducts()" />
+
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="all" onclick="applyFilter('all')">All</button>
+      <button class="filter-btn" data-filter="living" onclick="applyFilter('living')">Living Room</button>
+      <button class="filter-btn" data-filter="bedroom" onclick="applyFilter('bedroom')">Bedroom</button>
+      <button class="filter-btn" data-filter="office" onclick="applyFilter('office')">Office</button>
+      <button class="filter-btn" data-filter="dining" onclick="applyFilter('dining')">Dining</button>
+    </div>
+
+    <section class="product-grid" id="productGrid">
+      <!-- Product 1 -->
+      <article class="product-card" data-name="Contemporary Sofa" data-category="living">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1587019152656-8f4f2acb4d17?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1" alt="Contemporary Sofa">
+        </div>
+        <div class="product-title">Contemporary Sofa</div>
+        <div class="product-desc">3-seater premium fabric sofa with solid wood frame.</div>
+        <div class="price">Custom Pricing</div>
+        <div class="btn-row">
+          <a class="btn primary" href="mailto:info@apexfurnishings.com?subject=Product Inquiry - Contemporary Sofa">Contact Us</a>
+          <a class="btn ghost" href="#details" onclick="openQuickView(event,'Contemporary Sofa','3-seater premium fabric sofa with solid wood frame.')">View Details</a>
+        </div>
+      </article>
+
+      <!-- Product 2 -->
+      <article class="product-card" data-name="Modular TV Unit" data-category="living">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=2" alt="TV Unit">
+        </div>
+        <div class="product-title">Modular TV Unit</div>
+        <div class="product-desc">Customisable storage and display unit with cable management.</div>
+        <div class="price">Custom Pricing</div>
+        <div class="btn-row">
+          <a class="btn primary" href="mailto:info@apexfurnishings.com?subject=Product Inquiry - Modular TV Unit">Contact Us</a>
+          <a class="btn ghost" href="#details" onclick="openQuickView(event,'Modular TV Unit','Customisable storage and display unit with cable management.')">View Details</a>
+        </div>
+      </article>
+
+      <!-- Product 3 -->
+      <article class="product-card" data-name="King Size Bed" data-category="bedroom">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1505691723518-36a6a7105a6f?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=3" alt="King Size Bed">
+        </div>
+        <div class="product-title">King Size Bed</div>
+        <div class="product-desc">Sturdy wooden bed with upholstered headboard and storage options.</div>
+        <div class="price">Custom Pricing</div>
+        <div class="btn-row">
+          <a class="btn primary" href="mailto:info@apexfurnishings.com?subject=Product Inquiry - King Size Bed">Contact Us</a>
+          <a class="btn ghost" href="#details" onclick="openQuickView(event,'King Size Bed','Sturdy wooden bed with upholstered headboard and storage options.')">View Details</a>
+        </div>
+      </article>
+
+      <!-- Product 4 -->
+      <article class="product-card" data-name="Wardrobe with Sliding Doors" data-category="bedroom">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1615874959478-5c2c8f5c7a6d?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=4" alt="Wardrobe">
+        </div>
+        <div class="product-title">Wardrobe with Sliding Doors</div>
+        <div class="product-desc">Space efficient sliding wardrobe with internal organisers.</div>
+        <div class="price">Custom Pricing</div>
+        <div class="btn-row">
+          <a class="btn primary" href="mailto:info@apexfurnishings.com?subject=Product Inquiry - Wardrobe">Contact Us</a>
+          <a class="btn ghost" href="#details" onclick="openQuickView(event,'Wardrobe with Sliding Doors','Space efficient sliding wardrobe with internal organisers.')">View Details</a>
+        </div>
+      </article>
+
+      <!-- Product 5 -->
+      <article class="product-card" data-name="Ergonomic Office Chair" data-category="office">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=5" alt="Office Chair">
+        </div>
+        <div class="product-title">Ergonomic Office Chair</div>
+        <div class="product-desc">Adjustable lumbar support, breathable mesh, ideal for long hours.</div>
+        <div class="price">Custom Pricing</div>
+        <div class="btn-row">
+          <a class="btn primary" href="mailto:info@apexfurnishings.com?subject=Product Inquiry - Office Chair">Contact Us</a>
+          <a class="btn ghost" href="#details" onclick="openQuickView(event,'Ergonomic Office Chair','Adjustable lumbar support, breathable mesh, ideal for long hours.')">View Details</a>
+        </div>
+      </article>
+
+      <!-- Product 6 -->
+      <article class="product-card" data-name="Executive Desk" data-category="office">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=6" alt="Executive Desk">
+        </div>
+        <div class="product-title">Executive Desk</div>
+        <div class="product-desc">Solid desktop with cable ports and integrated storage.</div>
+        <div class="price">Custom Pricing</div>
+        <div class="btn-row">
+          <a class="btn primary" href="mailto:info@apexfurnishings.com?subject=Product Inquiry - Executive Desk">Contact Us</a>
+          <a class="btn ghost" href="#details" onclick="openQuickView(event,'Executive Desk','Solid desktop with cable ports and integrated storage.')">View Details</a>
+        </div>
+      </article>
+
+      <!-- Product 7 -->
+      <article class="product-card" data-name="Dining Table Set" data-category="dining">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1533777324565-a040eb52fac2?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=7" alt="Dining Table">
+        </div>
+        <div class="product-title">Dining Table Set</div>
+        <div class="product-desc">6-seater wooden dining set with matching chairs.</div>
+        <div class="price">Custom Pricing</div>
+        <div class="btn-row">
+          <a class="btn primary" href="mailto:info@apexfurnishings.com?subject=Product Inquiry - Dining Table Set">Contact Us</a>
+          <a class="btn ghost" href="#details" onclick="openQuickView(event,'Dining Table Set','6-seater wooden dining set with matching chairs.')">View Details</a>
+        </div>
+      </article>
+
+      <!-- Product 8 -->
+      <article class="product-card" data-name="Custom Storage Solutions" data-category="dining">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=8" alt="Storage">
+        </div>
+        <div class="product-title">Custom Storage Solutions</div>
+        <div class="product-desc">Shelving, cabinets, and storage built to order.</div>
+        <div class="price">Custom Pricing</div>
+        <div class="btn-row">
+          <a class="btn primary" href="mailto:info@apexfurnishings.com?subject=Product Inquiry - Storage Solutions">Contact Us</a>
+          <a class="btn ghost" href="#details" onclick="openQuickView(event,'Custom Storage Solutions','Shelving, cabinets, and storage built to order.')">View Details</a>
+        </div>
+      </article>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Apex Furnishings Pvt. Ltd. — Contact: info@apexfurnishings.com</p>
+    </footer>
+  </main>
+
+  <!-- Quick view modal (simple) -->
+  <div id="quickView" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:9999">
+    <div style="background:white;border-radius:12px;max-width:720px;width:100%;padding:18px;position:relative">
+      <button onclick="closeQuickView()" style="position:absolute;right:12px;top:10px;border:none;background:#eee;padding:8px;border-radius:8px;cursor:pointer">✕</button>
+      <h3 id="qTitle" style="margin-bottom:8px"></h3>
+      <p id="qDesc" style="color:#444;margin-bottom:12px"></p>
+      <a id="qMail" class="btn primary" href="#">Contact About This</a>
+    </div>
+  </div>
+
+  <script>
+    // Toggle mobile menu (matching index behavior)
+    function toggleMenu(){
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('active');
+    }
+
+    // Filter logic
+    function applyFilter(cat){
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelector('.filter-btn[data-filter="'+cat+'"]').classList.add('active');
+      const cards = document.querySelectorAll('.product-card');
+      cards.forEach(c=>{
+        if(cat === 'all') c.style.display = 'block';
+        else c.style.display = c.dataset.category === cat ? 'block' : 'none';
+      });
+    }
+
+    // Search logic
+    function searchProducts(){
+      const q = (document.getElementById('searchInput').value || '').toLowerCase();
+      document.querySelectorAll('.product-card').forEach(card=>{
+        const name = (card.dataset.name || '').toLowerCase();
+        const desc = (card.querySelector('.product-desc')?.textContent || '').toLowerCase();
+        card.style.display = (name.includes(q) || desc.includes(q)) ? 'block' : 'none';
+      });
+    }
+
+    // Quick view modal
+    function openQuickView(e, title, desc){
+      e.preventDefault();
+      document.getElementById('qTitle').textContent = title;
+      document.getElementById('qDesc').textContent = desc;
+      const mail = 'mailto:info@apexfurnishings.com?subject=' + encodeURIComponent('Product Inquiry - ' + title);
+      const qMail = document.getElementById('qMail');
+      qMail.href = mail;
+      qMail.textContent = 'Contact About This';
+      document.getElementById('quickView').style.display = 'flex';
+    }
+    function closeQuickView(){ document.getElementById('quickView').style.display = 'none'; }
+
+    // Keep accessible focus closing on ESC
+    document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeQuickView(); });
+
+    // If user lands directly on this page with a filter in query param, apply it
+    (function applyInitialFromQuery(){
+      try{
+        const params = new URLSearchParams(location.search);
+        const cat = params.get('cat');
+        if(cat) applyFilter(cat);
+      }catch(e){}
+    })();
+  </script>
+</body>
+</html>
